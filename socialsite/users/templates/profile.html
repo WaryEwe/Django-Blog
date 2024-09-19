@@ -80,9 +80,15 @@
               <form method="post" action="#" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{video_f.video_title}}
-                {{video_f.video}}
+                {{video_f.video_file}}
                 <button type="submit">Uplaod</button>
               </form>
+              <select class="form-select form-select-sm" aria-label="Small select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -95,7 +101,7 @@
         {% if video_up %}
         {% for v in video_up %}
         {{v.video_title}}
-        <video width="750px" controls src="{{v.video.url}}">
+        <video width="500px" crossorigin controls src="{{v.video_file.url}}">
           Your browser does not support the video tag.
         </video>
         {{v.posted_date}}
@@ -107,4 +113,7 @@
       </div>
 
 </div>
+<script>
+
+</script>
 {% endblock content %}

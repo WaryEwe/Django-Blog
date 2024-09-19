@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import login, authenticate, logout
-from .forms import Signup_Form, Login_Form, P_Edit_Form, Post_Form
+from .forms import Signup_Form, Login_Form, P_Edit_Form
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Profile_Model, Post_Model
-
+from .models import Profile_Model
+from posts import models
+from posts import forms
 def login_view(request):
     if request.method == 'POST':
         login_f = Login_Form(request.POST)
@@ -42,20 +43,20 @@ def profile_view(request, username):
     user_profile, created = Profile_Model.objects.get_or_create(user_id=req_user)
     url_user = reverse('user', kwargs={'username':username})
     user_config = get_object_or_404(Profile_Model, user_id=req_user)
-    video_up = Post_Model.objects.filter(vid_uploader=req_user)
+    video_up = models.Post_Model.objects.filter(uploader=req_user)
     if request.method == 'POST':
         user_desc_f = P_Edit_Form(request.POST, instance=user_profile)
-        video_f = Post_Form(request.POST, request.FILES)
+        video_f = forms.Post_Form(request.POST, request.FILES)
         if video_f.is_valid():
             video_u = video_f.save(commit=False)
-            video_u.vid_uploader = req_user
+            video_u.uploader = req_user
             video_u.save()
             return redirect('user', username=username)
         else:
             messages.error(request, 'there was a error!')
 
         if user_desc_f.is_valid():
-            user_desc = user_desc_f.save(commit=False,)
+            user_desc = user_desc_f.save(commit=False)
             user_desc.user_id = req_user
             user_desc.save()
             return redirect('user', username=username)
@@ -64,8 +65,8 @@ def profile_view(request, username):
             return redirect('test')
     else:
         user_desc_f = P_Edit_Form()
-        video_f = Post_Form(instance=request.user)
-    
+        video_f = forms.Post_Form()
+
     context = {
         'url_user':url_user,
         'req_user':req_user,
