@@ -1,0 +1,19 @@
+{% include "base.html" %}
+{% block content %}
+<div class="auth-block-main">
+    <form method = "POST">
+
+        <div class="auth-form">
+            {% csrf_token %}
+            <h4>Log into an existing account</h4>
+            <label for="id_usernmae">Enter your username</label>
+            {{login_f.username}}
+            <label for="id_password">Enter your password</label>
+            {{login_f.password}}
+            <button type="submit" class="btn btn-primary">Login</button>
+            <br>
+            <a href="{%url 'signup'%}">Don't have an account?</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% include "base.html" %}
+{% block content %}
+<div class="auth-block-main">
+    <form method = "POST" action="#" name='signup-form'>
+        <div class="auth-form">
+        {% csrf_token %}
+        <div class="auth-header">
+            <h4>Signup for a account</h4>
+        </div>
+                <label>Enter a username</label>
+                {{signup_f.username}}
+                <label>Enter a password</label>
+                {{signup_f.password1}}
+                <label>Enter the same password again</label>
+                {{signup_f.password2}}
+                <button class="btn btn-primary" type="submit">Signup</button>
+                <br>
+                <a href="{%url 'login'%}">Already signed up?</a>
+            </div>
+        </form>
+    <br>
+</div>
+{% endblock content %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-block">
+    <section class="h-100 gradient-custom-2">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center">
+            <div class="col col-lg-9 col-xl-8">
+              <div class="card">
+                <div class="rounded-top text-white d-flex flex-row" style="background-color: #6969; height:200px;">
+                  <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                  </div>         
+                  <div class="ms-3" style="margin-top: 50px;">
+                    <h5>{{req_user.username}}</h5>
+                    <p>{{user_conifg.user_desc}}</p>
+                    <h5>Joined {{req_user.date_joined.date}}</h5>
+                  </div>
+                </div>
+                <div class="p-btns">
+
+                    {% if req_user.is_authenticated and user == req_user%}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#peditmodal" style="max-width=2px">Edit profile</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ptmodal">Upload</button>
+                    <a href="{%url 'logout'%}" class="btn btn-primary">Logout</a>
+
+
+                    {% else %}
+                    <button class="btn btn-primary">Follow</button>
+                    {% endif %}
+                </div>
+                <div class="p-4 text-black bg-body-tertiary">
+                  <div class="d-flex justify-content-end text-center py-1 text-body">
+                    <div>
+                      <p class="mb-1 h5">253</p>
+                      <p class="small text-muted mb-0">Photos</p>
+                    </div>
+                    <div class="px-3">
+                      <p class="mb-1 h5">1026</p>
+                      <p class="small text-muted mb-0">Followers</p>
+                    </div>
+                    <div>
+                      <p class="mb-1 h5">478</p>
+                      <p class="small text-muted mb-0">Following</p>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="modal fade" id="peditmodal" tabindex="-1" aria-labelledby="peditmodallabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="peditmodallabel">Edit profile</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" name="update-pf">
+                {% csrf_token %}
+                {{user_desc_f.user_desc}}
+                <button class="btn btn-primary">Upload</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="ptmodal" tabindex="-1" aria-labelledby="ptmodallabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="ptmodallabel">Uplaod a post</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{video_f.video}}
+                <button type="submit">Uplaod</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+{% endblock content %}
