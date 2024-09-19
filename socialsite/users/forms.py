@@ -20,4 +20,4 @@ class P_Edit_Form(forms.ModelForm):
 class Post_Form(forms.ModelForm):
     class Meta:
         model = Post_Model
-        fields = ['video']
+        fields = ['video', 'video_title']

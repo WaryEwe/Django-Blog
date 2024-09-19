@@ -79,6 +79,7 @@
             <div class="modal-body">
               <form method="post" action="#" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{video_f.video_title}}
                 {{video_f.video}}
                 <button type="submit">Uplaod</button>
               </form>
@@ -89,6 +90,20 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="p_uploaded_content">
+        {% if video_up %}
+        {% for v in video_up %}
+        {{v.video_title}}
+        <video width="750px" controls src="{{v.video.url}}">
+          Your browser does not support the video tag.
+        </video>
+        {{v.posted_date}}
+        {% endfor %}
+        {% else %}
+        <p>No posts yet</p>  
+        {% endif %}
+      
       </div>
 
 </div>

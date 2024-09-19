@@ -42,9 +42,10 @@ def profile_view(request, username):
     user_profile, created = Profile_Model.objects.get_or_create(user_id=req_user)
     url_user = reverse('user', kwargs={'username':username})
     user_config = get_object_or_404(Profile_Model, user_id=req_user)
+    video_up = Post_Model.objects.filter(vid_uploader=req_user)
     if request.method == 'POST':
         user_desc_f = P_Edit_Form(request.POST, instance=user_profile)
-        video_f = Post_Form(request.POST, request.FILES, instance=request.user)
+        video_f = Post_Form(request.POST, request.FILES)
         if video_f.is_valid():
             video_u = video_f.save(commit=False)
             video_u.vid_uploader = req_user
@@ -62,8 +63,9 @@ def profile_view(request, username):
             messages.error(request, 'test')
             return redirect('test')
     else:
-        user_desc_f = P_Edit_Form(instance=user_profile)
+        user_desc_f = P_Edit_Form()
         video_f = Post_Form(instance=request.user)
+    
     context = {
         'url_user':url_user,
         'req_user':req_user,
@@ -71,6 +73,7 @@ def profile_view(request, username):
         'user_desc_f':user_desc_f,
         'user_conifg':user_config,
         'video_f':video_f,
+        'video_up':video_up,
     }
     return render(request, 'profile.html', context)
 
